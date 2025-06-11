@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01_IntroToDotNet", "01_IntroToDotNet\01_IntroToDotNet.csproj", "{C0B2408E-918E-4ED4-B8DF-0F430EEE06E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02_Arrays", "02_Arrays\02_Arrays.csproj", "{316164F8-F645-42B3-9F39-A1BB20F67CCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C0B2408E-918E-4ED4-B8DF-0F430EEE06E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0B2408E-918E-4ED4-B8DF-0F430EEE06E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0B2408E-918E-4ED4-B8DF-0F430EEE06E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{316164F8-F645-42B3-9F39-A1BB20F67CCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{316164F8-F645-42B3-9F39-A1BB20F67CCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{316164F8-F645-42B3-9F39-A1BB20F67CCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{316164F8-F645-42B3-9F39-A1BB20F67CCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
