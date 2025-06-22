@@ -1,25 +1,28 @@
-﻿namespace _05_StructRefOut
+﻿using System.ComponentModel.Design;
+using System.Security.Cryptography;
+using System.Threading.Channels;
+
+namespace _05_StructRefOut
 {
     class Worker
     {
-        string name;
-        string surname;
-        string lastname;
+
         
         public  string Name { get; set; }
         public  string Surname { get; set; }
-        public  string Lastame { get; set; }
+        public  string Lastname { get; set; }
 
         private int age;
 
         public int Age
         {
             get { return age; }
-            set { 
-                if (age >= 16 && age <150)
-                age = value;
-                else age = 0;
-                }
+            set
+            {
+                if (value > 15 && value < 150)
+                    age = value;
+                else throw new Exception("Age must be from 16 to 150!");
+            }
         }
 
         private int salary;
@@ -29,9 +32,11 @@
             get { return salary; }
             set
             {
-                if (salary >= 16 && salary < 150)
+                if (value >= 0)
                     salary = value;
-                else salary = 0;
+                else { salary = 0;
+                    Console.WriteLine("Salary must be positive!");
+                }
             }
         }
 
@@ -42,50 +47,123 @@
             get { return dateOfWork; }
             set
             {
-                if (dateOfWork < DateTime.Now)
+                if (value < DateTime.Now)
                     dateOfWork = value;
                 else throw new Exception("Wrong time!");
             }
         }
 
     }
+
+    class Calc
+    {
+        private int a;
+        private int b;
+
+        public void initialize()
+        {
+            Console.Write("Enter a: "); a = int.Parse(Console.ReadLine()!);
+            Console.Write("Enter b: "); b = int.Parse(Console.ReadLine()!);
+        }
+        public void add()
+        {
+            initialize();
+            int res = a + b;
+            Console.WriteLine($"Result {a} + {b} = {res}");
+        }
+        public void sub()
+        {
+            initialize();
+            int res = a - b;
+            Console.WriteLine($"Result {a} - {b} = {res}");
+        }
+        public void multy()
+        {
+            initialize();
+            int res = a * b;
+            Console.WriteLine($"Result {a} * {b} = {res}");
+        }
+        public void div()
+        {
+            /*
+            while (true) { 
+            initialize();
+                if (b == 0) { Console.WriteLine("Error Can't divide by zero"); }
+                else break;
+            }*/
+            initialize();
+            int res = a / b;
+            Console.WriteLine($"Result {a} / {b} = {res}");
+        }
+    }
     internal class Program
     {
         static void Main(string[] args)
         {
-            /*авдання 1:
-            Описати клас з ім'ям Worker, що містить наступні поля:
-            прізвище та ініціали працівника;
-            вік працівника;
-            ЗП працівника;
-            дата прийняття на роботу.
-            Написати програму, що виконує наступні дії:
-            введення з клавіатури даних в масив, що складається з п'яти елементів типу Worker (записи повинні бути впорядковані за алфавітом);
-            якщо значення якогось параметру введено не в відповідному форматі - згенерувати відповідний exception.
-            вивід на екран прізвища працівника, стаж роботи якого перевищує введене з клавіатури значення.
-            Рекомендація: перевірку формата даних та генерацію винятку виконуйте в блоці set{} для кожної властивості класа Worker. */
-            Worker[] workers = new Worker[1];
-            try
-            {
-                for (int i = 0; i < workers.Length; i++)
+            Console.WriteLine("Task 1");
+            bool cycle = true;
+            Worker[] workers = new Worker[5];
+            while (cycle) { 
+                try
                 {
-                    workers[i] = new Worker();
-                    Console.Write("\nEnter workers first name: "); workers[i].Name = Console.ReadLine()!;
-                    Console.Write("\nEnter workers middle name: "); workers[i].Surname = Console.ReadLine()!;
-                    Console.Write("\nEnter workers last name: "); workers[i].Lastame = Console.ReadLine()!;
-                    Console.Write("\nEnter workers age: "); workers[i].Age = int.Parse(Console.ReadLine()!);
-                    Console.Write("\nEnter workers salary: "); workers[i].Salary = int.Parse(Console.ReadLine()!);
-                    Console.Write("\nEnter workers date of work: "); workers[i].DateOfWork = DateTime.Parse(Console.ReadLine()!);
+                    for (int i = 0; i < workers.Length; i++)
+                    {
+                        workers[i] = new Worker();
+                        Console.Write("Enter workers first name: "); workers[i].Name = Console.ReadLine()!;
+                        Console.Write("Enter workers middle name: "); workers[i].Surname = Console.ReadLine()!;
+                        Console.Write("Enter workers last name: "); workers[i].Lastname = Console.ReadLine()!;
+                        Console.Write("Enter workers age: "); workers[i].Age = int.Parse(Console.ReadLine()!);
+                        Console.Write("Enter workers salary: "); workers[i].Salary = int.Parse(Console.ReadLine()!);
+                        Console.Write("Enter workers date of work (yyyy/mm/dd): "); workers[i].DateOfWork = DateTime.Parse(Console.ReadLine()!);
+                        cycle = false;
+                    }
+                }
+                    
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine(ex.Message); ;
                 }
             }
-            catch (Exception ex)
-            {
-
-                Console.WriteLine(ex.Message); ;
+            Console.WriteLine($"---Workers---");
+            foreach (Worker worker in workers) {
+                
+                Console.WriteLine($"First name: {worker.Name}\nMiddle name: {worker.Surname}\nLast name: {worker.Lastname}\nAge: {worker.Age}\nSalary: {worker.Salary}\nDate of Work: {worker.DateOfWork}\n ");
             }
             
-            foreach (Worker worker in workers) {
-                Console.WriteLine(worker);
+            Console.WriteLine("Task 2");
+            Calc c = new Calc();
+            bool cycle2 = true;
+            while (cycle2)
+            {
+                try
+                {
+                    Console.WriteLine("\nAdding 2 Numbers: ");
+                    c.add();
+                    Console.WriteLine("\nSubtracting 2 Numbers: ");
+                    c.sub();
+                    Console.WriteLine("\nMultiplying 2 Numbers: ");
+                    c.multy();
+                    Console.WriteLine("\nDividing 2 Numbers: ");
+                    c.div();
+                    break;
+                }
+
+                catch (DivideByZeroException e)
+                {
+                    Console.WriteLine("Divizion by 0!");
+                    Console.WriteLine(e.Message);
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Arguments must be numbers!");
+                    Console.WriteLine(e.Message);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Unknown error!");
+                    Console.WriteLine(e.Message);
+                }
             }
         }
     }
