@@ -6,13 +6,13 @@ namespace _07_OverloadOperators
     {
         private int a;
 
-        public Square() { int a = 0; }
-        public Square(int val) {int a = val;}
+        public Square() { A = 0; }
+        public Square(int val) { A = val;}
         //public static return_type operator [symbol](parameters )
         public override string ToString()
         {
 
-            return $"a: {a}";
+            return $"A: {A}";
         }
 
         public int A
@@ -110,11 +110,11 @@ namespace _07_OverloadOperators
         {
             return sq1.A == 0;
         }
-        public static explicit operator Square(Rectanlge sq)
+        public static explicit operator Square(Rectanlge rc)
         {
-            return new Square(sq.A + sq.B);
+            return new Square(rc.A + rc.B);
         }
-        public static explicit operator int(Square sq)
+        public static implicit operator int(Square sq)
         {
             return sq.A * sq.A;
         }
@@ -140,9 +140,14 @@ namespace _07_OverloadOperators
             }
         }
 
-        public Rectanlge() { int a = 0;int b = 0; }
-        public Rectanlge(int av,int bv) { int a = av; int b = bv; }
+        public Rectanlge() {  A = 0; B = 0; }
+        public Rectanlge(int av,int bv) { A = av;  B = bv; }
 
+        public override string ToString()
+        {
+
+            return $"A: {A}, B: {B}";
+        }
         public static Rectanlge operator ++(Rectanlge sq)
         {
             sq.A++;
@@ -193,19 +198,19 @@ namespace _07_OverloadOperators
         }
         public static bool operator <(Rectanlge sq1, Rectanlge sq2)
         {
-            return sq1.A+sq1.B < sq2.A+sq1.B;
+            return sq1.A+sq1.B < sq2.A+sq2.B;
         }
         public static bool operator >(Rectanlge sq1, Rectanlge sq2)
         {
-            return (sq1.A+ sq1.B > sq2.A+ sq1.B);
+            return (sq1.A+ sq1.B > sq2.A+ sq2.B);
         }
         public static bool operator <=(Rectanlge sq1, Rectanlge sq2)
         {
-            return sq1.A+ sq1.B <= sq2.A+ sq1.B;
+            return sq1.A+ sq1.B <= sq2.A+ sq2.B;
         }
         public static bool operator >=(Rectanlge sq1, Rectanlge sq2)
         {
-            return (sq1.A+ sq1.B >= sq2.A+ sq1.B);
+            return (sq1.A+ sq1.B >= sq2.A+ sq2.B);
         }
         public static bool operator ==(Rectanlge sq1, Rectanlge sq2)
         {
@@ -241,9 +246,9 @@ namespace _07_OverloadOperators
 
         public static implicit operator Rectanlge(Square sq)
         {
-            return new Rectanlge(sq.A*sq.A,sq.A+150);
+            return new Rectanlge(sq.A*sq.A,sq.A+1000);
         }
-        public static implicit operator int(Rectanlge sq)
+        public static explicit operator int(Rectanlge sq)
         {
             return sq.A * sq.B;
         }
@@ -253,7 +258,62 @@ namespace _07_OverloadOperators
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Square sq = new Square(5);
+            Rectanlge rc = new Rectanlge(7, 9);
+            
+
+            Square sq2 = new Square(4);
+            Console.Write($"Square 1: {sq}"); Console.Write($"\t\tSquare 2: {sq2}\n");
+            Console.WriteLine($"Increment: {sq++}");
+            Console.WriteLine($"Decrement: {sq--}");
+            Console.WriteLine();
+            Console.WriteLine($"Adding sq and sq2: {sq+sq2}");
+            Console.WriteLine($"Subtracting sq and sq2: {sq-sq2}");
+            Console.WriteLine($"Multypliyng sq and sq2: {sq*sq2}");
+            Console.WriteLine($"Dividing sq and sq2: {sq/sq2}");
+            Console.WriteLine();
+            Console.WriteLine($"Comparing sq > sq2: {sq>sq2}");
+            Console.WriteLine($"Comparing sq >= sq2: {sq>=sq2}");
+            Console.WriteLine($"Comparing sq < sq2: {sq<sq2}");
+            Console.WriteLine($"Comparing sq <= sq2: {sq<=sq2}");
+            Console.WriteLine($"Comparing sq == sq2: {sq==sq2}");
+            Console.WriteLine($"Comparing sq != sq2: {sq!=sq2}");
+            Console.WriteLine();
+            Console.WriteLine("Comparing if sq is true (!= 0)");
+            if (sq) { Console.WriteLine("sq is True"); }
+            else { Console.WriteLine("sq is False"); }
+            Console.WriteLine();
+            int a = 6;
+            a = sq;
+            Console.WriteLine($"Converting sq to int: {a}");
+            Square convRc = (Square)rc;
+            Console.WriteLine($"Converting explicitly Rectangle to Square: {convRc}");
+
+            Rectanlge rc2 = new Rectanlge(1, 4);
+            Console.Write($"\nRectangle 1: {rc}"); Console.Write($"\t\tRectangle 2: {rc2}\n");
+            Console.WriteLine($"Increment: {rc++}");
+            Console.WriteLine($"Decrement: {rc--}");
+            Console.WriteLine();
+            Console.WriteLine($"Adding rc and rc2: {rc + rc2}");
+            Console.WriteLine($"Subtracting rc and rc2: {rc - rc2}");
+            Console.WriteLine($"Multypliyng rc and rc2: {rc * rc2}");
+            Console.WriteLine($"Dividing rc and rc2: {rc / rc2}");
+            Console.WriteLine();
+            Console.WriteLine($"Comparing rc > rc2: {rc > rc2}");
+            Console.WriteLine($"Comparing rc >= rc2: {rc >= rc2}");
+            Console.WriteLine($"Comparing rc < rc2: {rc < rc2}");
+            Console.WriteLine($"Comparing rc <= rc2: {rc <= rc2}");
+            Console.WriteLine($"Comparing rc == rc2: {rc == rc2}");
+            Console.WriteLine($"Comparing rc != rc2: {rc != rc2}");
+            Console.WriteLine();
+            Console.WriteLine("Comparing if rc is true (!= 0)");
+            if (rc) { Console.WriteLine("rc is True"); }
+            else { Console.WriteLine("rc is False"); }
+            int b = 4;
+            b = (int)rc;
+            Console.WriteLine($"Converting rc to int: {b}");
+            Rectanlge convSq = sq;
+            Console.WriteLine($"Converting implicitly Square to Rectangle: {convSq}");
         }
     }
 }
