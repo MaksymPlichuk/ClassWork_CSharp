@@ -56,7 +56,7 @@
     internal class Program
     {
         static void Main(string[] args)
-        {/*
+        {
             #region Task1
             Console.WriteLine("Task 1");
             string num ;
@@ -78,45 +78,55 @@
                 Console.WriteLine(ex.Message);
             }
             #endregion
-            */
+            
             Console.WriteLine("Task 2");
             CreditCard c = new CreditCard();
             try
             {
                 Console.Write("Enter card number: "); c.CreditNumber = Console.ReadLine()!;
-            }
-            catch (Exception e )
-            {
-                Console.WriteLine(e.Message);
-            } 
-            try
-            {
                 Console.Write("Enter full holder name: "); c.FullName = Console.ReadLine()!;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-           
-            try
-            {
                 Console.Write("Enter card cvc: "); c.Cvc = Console.ReadLine()!;
+                Console.Write("Enter card date of expire: "); c.DateOfExpire = DateTime.Parse(Console.ReadLine()!);
             }
             catch (FormatException e)
             {
                 Console.WriteLine("Arguments must be numbers!");
                 Console.WriteLine(e.Message);
-            }
-            try
-            {
-                Console.Write("Enter card date of expire: "); c.DateOfExpire = DateTime.Parse(Console.ReadLine()!);
-            }
+            } 
+            
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-                
 
+            Console.WriteLine("Task 3");
+            string formula;
+            Console.Write("Enter mathematic formula: ");formula = Console.ReadLine()!;
+            string[] numbers = formula.Split(['*', '/', '+', '-', '?'],StringSplitOptions.RemoveEmptyEntries);
+            int[] ints = new int[numbers.Length];
+            for (int i = 0; i < numbers.Length; i++) {
+                try
+                {
+                    ints[i] = int.Parse(numbers[i]);
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Arguments must be numbers!");
+                    Console.WriteLine(e.Message);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            int prod = 1;
+            string res;
+            res = string.Join(" * ", numbers);
+            for (int i = 0; i < ints.Length; i++)
+            {
+                prod *= ints[i];
+            }
+            Console.WriteLine($"Result: {res} = {prod}");
         }
     }
 }
