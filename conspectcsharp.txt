@@ -1,0 +1,429 @@
+C# conspect 
+--------------------------------------------------------------
+				-01_IntroToDotNet-
+C++  некерований додат
+C#  керований  працює на .NET
+
+середовище виконання (CLR)comand language runtime
+менеджер між класами бібліотеками ОС, дає і очищає пам'ять
+
+C# - чисто ООП
+static - не міняє this  викликається черз .
+esc методи - endl,\n
+
+cw + Tab / Console.WriteLine("Hello")
+
+Unsigned - перекидало з - да +
+
+
+ввід данних cin
+Console.WriteLine("Enter nubmer: ");
+
+string str = Console.ReadLine()!;  !- прибирає зелену звильку
+Console.WriteLine(str + "!!!!!!");
+
+
+int number = int.Parse(str); int.Parse(str) - перетвор на int/любий тип
+Console.WriteLine(number + 10 + "!!!!!!");
+
+
+Console.WriteLine($"You entered: {number + 100} !!!!!");
+$ - інтерполяція  дозволяє додати
+
+великі типи данних - heap
+
+DateTime now DateTime.Now;	//вказт час
+Console.WriteLine(now);
+
+int? num2 = null; ? - вказівник
+
+if (str != null)
+str. ToUpper();
+//or  те саме 	? -> not null
+str?.ToLower
+
+C# Data Types
+...
+
+--------------------------------------------------------------
+					-Static-
+статичні змінні створ один раз на початку програми
+статичні змінні одні для всіх
+статичні ф-ціх створ одна для всіх
+
+--------------------------------------------------------------
+					-02_Arrays-
+int 16 short
+int 32 - int
+int 64 long
+
+var - те саме що й auto
+arr5.SetValue(77, 2);
+arr5.SetValue(77, 4);
+foreach (var elem in arr5)
+{ Console.WriteLine(elem + " "); }
+
+
+
+		MAtrix(Двовимірний масив)
+		
+int[,] array = new int[3, 3]; [3, 3]; 3 рядка 3 колоники
+int[,] - масив двовимір
+int[] - масив одноимір
+
+int[,] array2 = new int[3,4];
+Console.WriteLine(array2.Length);
+
+
+
+for (int i = 0; i < array2.GetLength(0); i++)
+{
+	for (int j = 0; j < array2.GetLength(1); j++)
+		{array2[i, j] = i *j + 1;}
+}
+
+
+
+		Трьох вимірний масив int[,,]
+		
+int[,,] array = new int[3, 3, 3];
+array[0, 0, 0] = 1;
+array[0, 0, 1] = 2;
+
+
+
+for (int i = 0; i < array.GetLength(0); i++)
+for (int j = 0; j < array. GetLength(1); j++)
+for (int k = 0; k < array.GetLength(2); k++)
+
+
+Console.Write(array2[i, j, k]);
+
+
+Console.ReadKey(); - затримка монітора
+//передив static
+
+
+Array.Resize(ref myArn2, 5); ref-вказ на оригінал
+Array.Rank - вказ якого виміру масив
+--------------------------------------------------------------
+					-03_StringBuilderString-
+string[] array = { "Hello", "From", "Summer", "Sun", "Tree", "Lake" };					
+
+
+					
+string.Join(obj,array)   -> приєднує все в 1 рядок і додає obj				
+
+
+
+string message = string. Join(" - ", array);
+Console.WriteLine("My message: " + message + 10);
+
+
+
+//ділитть текст на масив із слів
+string []words = htmlMessage.Split(new char[] {'','','','','?' }
+				StringSplitOptions.RemoveEmptyEntries);
+
+	StringSplitOptions.RemoveEmptyEntries // видаляє пробіли
+
+
+
+	Console.WriteLine("Count of words: " + words.Length);
+	foreach (string s in words){
+		Console.WriteLine(s);
+		}
+		
+	ConsoleKeyInfo key = Console.ReadKey(); // ає змогу ввести клавішу
+	if(key.Key == ConsoleKey.F12){
+		Console.WriteLine("F12 - Have a nice day!")
+		}
+
+
+
+тип данних decimal заокруглює до більшого після коми, підходить для грошей
+decimal money = 41.90m;
+
+
+
+CultureInfo us = new CultureInfo("en-US") - вказ тип валюти
+
+
+
+string course = $"Todays course: {money.ToString("C2",us)}"
+//C2 - к-сть цифр після коми 	us - регіон
+
+
+
+str?.toLower  -> якщо str!=null 
+nullStr?.Tolower()-> null condition operator 
+
+
+
+	--string методи валідації--
+
+string.IsNullOrEmpty(nullStr) && string.IsNullOrWhiteSpace(str2)
+	перевіряє чи пусто або null        перевіряє на null або пробіли 	 дають true
+
+
+	
+string.Compare(str1,str2) - повертає 0 якщо рядки рівні
+
+str1.Contains("Test") - повертає true якщо знайдено входження 'Test'
+
+string substr = str4.Substring(23)	//витягує все починаючи з 23 індекса 
+
+
+
+	--String interpolations--
+
+string result = String.Format("Number: {0:d4}", number); 			//(Number: {0}, number) -> підстав у {0} number
+            Console.WriteLine(result); 								// виведе 0024
+	
+	
+		long number4 = 19876543210;
+        string result5 = String.Format("{0:+# (###) ###-##-##}", number4);
+				або
+        string result6 = $"{number4:+# (###) ###-##-##}";
+        Console.WriteLine(result5); // +1 (987) 654-32-10
+
+		
+Console.WriteLine($"Name: {"Ivan",-10} Age: {23,10}"); 				// -10 резервує 10 комірок по лівому краю
+Console.WriteLine($"Name: {"Veronika",-10} Age: {34,10}");  		// +10 по правому краю
+
+
+
+string s11 = "hello world";
+            char ch = 'o';
+            int indexOfChar = s11.IndexOf(ch); 						// повертає індекс першого входження (4)
+            Console.WriteLine(indexOfChar);
+
+            string subString = "wor";
+            int indexOfSubstring = s11.IndexOf(subString); 			// повертає індекс першого входження (6)
+            Console.WriteLine(indexOfSubstring);
+
+
+
+Якщо рядок буде постійно доповнюватись то string буде не оптимізованим
+і краще буде використати StringBuilder -> працює так само як і вектор
+
+--------------------------------------------------------------
+					-04_IntroToOOP-
+
+class - потрібен коли складний тип данних
+
+
+	internal - дає доступ до класу лише в межах цієї збірки(04_IntroToOOP)
+	protected internal - те саме що і protected + internal 
+
+
+Ініціалізувати змінні краще у конструкторі, ОКРІМ констант
+
+				
+class ChildClass: Point{}											//public inheritance змінити не можна
+
+																	множинне наслідування з звичайними класами - заборонене
+	private int xCoord; - тип вказ біля кожної змінної
+	private int yCoord;
+
+Point @class = new Point(); @ - об назвати об'єк ключовим словом
+
+
+
+class Point: Object // всі класи автоматично умпадковують object
+
+
+
+base - батьківський класс
+
+propety - поля які спрощують geters seters
+
+
+
+public int XCoord()
+{
+
+	get { return xCoord; }
+	set {
+		if (newX >= 0)
+			xCoord newX;
+		else
+			xCoord = 0;}	}
+	
+кулюч - property
+куб - метод
+
+
+propfull + Tab --> fullproperty - можна робити перевірку
+
+prop + Tab --> auto property
+
+
+
+partial class Point{} -> щоб створити 2 класи з однією назвою
+розбиит класс на частини
+
+static int model; - static один для всіх
+
+--------------------------------------------------------------
+					-05_StructRefOut-
+
+property - властивість яка робить змінну контрольовану(всередині є seter який має валідацію)
+	
+
+	
+struct - stack
+class - heap
+
+
+
+static void MethodWith__(string name, params int[] marks){}
+
+params - дає змогу ініціалізвуати через initializer list (мають завжди бти останнім параметром)
+
+
+
+MethodWith__("Pedro", new int[]{656,9,65,1456,654,48})
+MethodWith__("Bob", 11,111,11,15,2,13,153,51) - замість 9 аругментів params перетворює на 2 string name і int[] marks
+
+
+те саме в C++ без params: MethodWith__("Bob", {11,111,11,15,2,13,153,51} )
+
+		
+для предачі оригіналу на c++ 
+static void Modify(int &num, string &str, Point& point)	
+	на C#		
+static void Modify(ref int num, ref string str, ref Point point)
+
+
+
+ref = &
+(зберігає адресу але напряму дозволяє доступатися до оригіналу
+передає адресу дозволяє доступатися до оригіналу)
+
+
+
+Point point = new Point() { X=10, Y=15 } - ініцілаізація без параметриз до ctor
+
+
+
+value - копія значення
+reference - копія адреси
+
+
+
+out - те саме щой ref (працюють з оригіналом)
+static void GetCurrentTime(out int hour, out int minute, out int second)
+{hour = DateTime.Now.Hour; minute = DateTime.Now.Minute;
+		second = DateTime.Now.Second;}
+	
+	
+ref - дозволяє змінити тільки ініалізовану змінну
+out - може працювати без ініцілізованої змінної
+	(створений для початкової ініціалізації +переревіряє чи всі змінні ініціалізовані)
+
+
+в більшості, new - create dynamic memory
+в struct, new - invoke(виклик) default constructor
+
+--------------------------------------------------------------
+					-06_Exception-
+sinlge = float
+
+
+створити власний exception: throw new DivdieByZeroExceptio("Second operant = 0")
+
+
+створюємо - щоб конкретизувати помилку
+
+try - перевіряє код 
+catch - ловить помилку винкиає не завжди
+finally	- запускається без умовно,  записуємо
+	коли треба закрити, почистити незалежно від exception
+
+
+finally - блок використовується щоб завжди зпрацювати
+
+checked - перевіряє чи є місце в комірці якщо нема то буде exception (byte+100=255)+ exception
+unchhecked - ігнорує overflow (byte+100=0)
+
+namespace - можливість створити класи з однаковою назвою але різним функціоналом				
+
+--------------------------------------------------------------
+					-07_OverloadOperators-
+
+static - не має this, викликаємо без екземпляру класу
+
+
+public static return_type operator [symbol](parameters )
+	
+public static Point operator -(Point point) 			//створ новий об'єкт який повертаємо
+{ Point res = new Point {
+	X = -point. X,
+	Y = -point. Y};
+	return res;
+}
+
+
+public static Point operator ++(Point point)			//міняє оригінал
+{														//перезавантає зразу префіксна і постфіксна форма але
+    point.X++;											//працюють вони як префіксна
+    point.Y++;
+    return point;
+}
+
+
+public static Point operator +(Point p1, Point p2)		//перезавантаж p1+p2
+        {
+            Point res = new Point
+            {
+                X = p1.X + p2.X,
+                Y = p1.Y + p2.Y
+            };
+            return res;
+        }
+
+
+public static bool operator <(Point p1, Point p2)
+	{
+		return p1.X + p1.Y < p2.X + p2.Y;
+	}
+	
+
+public static bool operator true(Point p)
+	{
+		return p.X != 0 || p.Y != 0;
+	}
+//приклад застосування
+if (p1) { Console.WriteLine("P1 is True"); }
+    else { Console.WriteLine("P1 is False"); }
+	
+	
+b = a;			//int ---> double 5.0000000 implicit (неявно)
+a = (int) b;	//double  --> int 5  explicit  (явно)
+
+
+public static implicit operator int(Point p)		//перетвор Point на int (неявно)
+  {													// b = p1
+      return p.X+ p.Y ;
+  }
+ 
+
+public static explicit operator _3D_Point(Point p)	// перетвор від Point -> _3D_Point
+        {											//explicit (явно)
+            return new _3D_Point(p.X, p.Y, 100);
+        }
+
+ _3D_Point newPoint = (_3D_Point) p1;	//Point ---> _3D_Point
+ _3D_Point newPoint = (_3D_Point) p1
+ 
+--------------------------------------------------------------
+					-08
+					
+sealed заборояємо наслідування
+
+механізм пізнього звязування - 
+
+indexator - []
+
+abstract class - для наслідування
