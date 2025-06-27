@@ -418,7 +418,7 @@ public static explicit operator _3D_Point(Point p)	// перетвор від Po
  _3D_Point newPoint = (_3D_Point) p1
  
 --------------------------------------------------------------
-					-08
+					-08_InheritanceIndexers-
 					
 sealed заборояємо наслідування
 
@@ -427,3 +427,22 @@ sealed заборояємо наслідування
 indexator - []
 
 abstract class - для наслідування
+
+--------------------------------------------------------------
+					-09_Interfaces-
+					
+інтерфейси - в c++ абстрактні класи(методи без реалізації)
+
+інтерфейс -клас всередені якого запис пусті методі проперті 
+івенти і всі вони public 	називаються з I
+	всередині пропис прототипи методів без їх реалізації
+
+без override ToString покаже назву проекта
+
+base.Print() -> те саме що й Human.Print()
+
+class Director: Employee, IManager	//implement / realize
+{}
+IManager director = new Director	//інтерфейсне посилання
+
+(director as Director)!. Salary = 30000000; //поміняти інтерфейсрне посилання
