@@ -419,14 +419,71 @@ public static explicit operator _3D_Point(Point p)	// перетвор від Po
  
 --------------------------------------------------------------
 					-08_InheritanceIndexers-
-					
-sealed заборояємо наслідування
 
-механізм пізнього звязування - 
+в C# множинне наслідування заборонене (крім інтерфейсів)
 
-indexator - []
+
+new DateTime();  -  save 01.01.0001
+
+			
+new - create new member and stop virtual	//працюватиме батьківська ф-ція зупиняє поліморфізм
+	
+	
+abstract class Person  (завжди є наслідником Object) - абстрактний класс (не можна створювати обєкт)
+//abstract method the same  void DoWork() = 0;
+		
+	public abstract void DoWork();
+			- асбтрактний метод (пустий де немає ніякої реалізації)
 
 abstract class - для наслідування
+
+
+sealed - забороняє перевизначати наслідниками цього методу, або забороняє наслідування классу
+
+
+property - віртуальними не бувають
+
+
+механізм пізнього звязування - на моменті компіляції визначається який метод буде використаний
+
+Механізм пізнього зв'язування (Late Binding) у C# — це можливість викликати методи або отримувати властивості 
+об’єкта під час виконання програми (runtime), а не під час компіляції (compile-time). 
+У C# пізнє зв’язування реалізується через ключове слово dynamic або інтерфейс System.Reflection
+
+
+indexator - [] можна перезавантажити по всіх property полях які є в класі
+
+
+ public Laptop this[int index]			//перезавантаж по індексу
+        {
+            get
+            {
+                if (index >= 0 && index < laptops.Length)
+                {
+                    return laptops[index];
+                }
+                throw new IndexOutOfRangeException();
+            }
+            set
+            {
+                if (index >= 0 && index < laptops.Length)
+                {
+                    laptops[index] = value;
+                }
+            }
+        }
+
+ public Laptop this[string name]		//перезавантаж по імені
+        {
+            get 
+            {
+                foreach (var l in laptops)
+                {
+                    if(l.Model == name)
+                        return l;
+                }
+                return null;
+            }  
 
 --------------------------------------------------------------
 					-09_Interfaces-
