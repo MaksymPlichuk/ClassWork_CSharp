@@ -522,3 +522,75 @@ IManager director = new Director		//інтерфейсне посилання
 
 
 інтерфейсрне посилання - можна вказати об'єкту якщо класс імплементує цей інтерфейс
+
+--------------------------------------------------------------
+					-10_StandartInterfaces-
+					
+композиція - один об'єкт є невідє'мною частиною іншого
+
+
+class Auditory : IEnumberable	//імплементуємо smartpointer 
+										для foreach
+
+public IEnumerator GetEnumerator()
+	{
+		return students.GetEnumerator();
+	}
+
+foreach (Student st in auditory)	//в auditory немає smartpointer
+{
+	Console.WriteLine(st.ToString());
+}
+
+
+	--для методу Array.Sort()--
+public int CompareTo(object? obj)
+	{
+	 if( obj is Student)
+	{
+	return this.FirstName.CompareTo((obj as Student)!.FirstName);
+	}
+else
+{
+throw new Exception("Er")]
+
+
+		порівняння для любого поля Student
+public void Sort (IComparer<Student> comparer)
+	{
+	 Array.Sort(students, comparer);
+	}
+
+
+auditory.Sort(new BirthdateComparer());
+	foreach (Student st in auditory)
+	{
+	 Console.WriteLine(st.ToString());
+	}
+	
+	
+			---Клонування--- Iclonable
+			
+public object Clone()
+	{
+		Student temp = (Student)this.MemberwiseClone();
+		//shallow copy
+		//плибоке копіювання
+		temp. StudentCard = new StudentCard()
+		  {
+		Number = this. StudentCard. Number,
+		Series = this. StudentCard. Series 
+		  };
+		return temp;
+	}
+	
+	
+ENUM - набір чилочисельних констант
+
+	виведнення значення  і його
+foreach (Discount item in values)
+	{
+	 Console.WriteLine($"{item} - {(int)item}");
+	}
+	
+	
