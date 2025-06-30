@@ -22,7 +22,7 @@ namespace _09_Interfaces
         void SortDesc();
         void SortByParam(bool isAsc);
     }
-    class Array : IOutput, Imath
+    class Array : IOutput, Imath, Isort
     {
         Random random = new Random();
         private int[] arr; 
@@ -48,7 +48,10 @@ namespace _09_Interfaces
         public void Show(string info)
         {
             Console.WriteLine(info);
-            Show();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} element = {arr[i]}");
+            }
         }
 
         public int Max()
@@ -75,6 +78,55 @@ namespace _09_Interfaces
             }
             return false;
         }
+
+        public void SortAsc()
+        {
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                for (int j = 0; j < arr.Length - i - 1; j++)
+                {
+                    if (arr[j] > arr[j + 1])
+                    {
+                        var temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+            Console.WriteLine("Elements sorted by ascending");
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} element = {arr[i]}");
+            }
+        }
+
+        public void SortDesc()
+        {
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                for (int j = 0; j < arr.Length - i - 1; j++)
+                {
+                    if (arr[j] < arr[j + 1])
+                    {
+                        var temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+            Console.WriteLine("Elements sorted by decending");
+            for (int i = 0; i < arr.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} element = {arr[i]}");
+            }
+        }
+
+        public void SortByParam(bool isAsc)
+        {
+            Console.WriteLine("\nSorting By Parameter");
+            if (isAsc) { SortAsc();}
+            else { SortDesc(); }
+        }
     }
     internal class Program
     {
@@ -93,10 +145,42 @@ namespace _09_Interfaces
             Console.WriteLine($"Min value: {array.Min()}"); 
             Console.WriteLine($"Average value: {array.Avg()}"); 
             int val;
-            Console.WriteLine("Enter value to search for"); val = int.Parse(Console.ReadLine()!);
-            Console.WriteLine(array.Search(val));
-
+            Console.WriteLine("Enter value to search for");
+            while (true)
+            {
+                try
+                {
+                    val = int.Parse(Console.ReadLine()!);
+                    Console.WriteLine(array.Search(val));
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+           
             Console.WriteLine("\nTask 3");
+            array.SortAsc(); Console.WriteLine();
+            array.SortDesc(); Console.WriteLine();
+            bool param = true;
+            Console.WriteLine("Enter parameter(true/false): ");
+            while (true)
+            {
+                try{
+                    param = bool.Parse(Console.ReadLine()!);
+                    array.SortByParam(param);
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+              
+            
+            
+            
         }
     }
 }
