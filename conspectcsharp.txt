@@ -529,7 +529,7 @@ IManager director = new Director		//інтерфейсне посилання
 композиція - один об'єкт є невідє'мною частиною іншого
 
 
-class Auditory : IEnumberable	//імплементуємо smartpointer 
+class Auditory : IEnumerable	//імплементуємо smartpointer 
 										для foreach
 
 public IEnumerator GetEnumerator()
@@ -537,18 +537,21 @@ public IEnumerator GetEnumerator()
 		return students.GetEnumerator();
 	}
 
-foreach (Student st in auditory)	//в auditory немає smartpointer
+foreach (Student st in auditory)	//в auditory немає smartpointer по дефолту
 {
 	Console.WriteLine(st.ToString());
 }
 
 
 	--для методу Array.Sort()--
-public int CompareTo(object? obj)
+
+class Student : IComparable<Student>
+
+public int CompareTo(object? obj)			//для методу array.Sort()
 	{
 	 if( obj is Student)
 	{
-	return this.FirstName.CompareTo((obj as Student)!.FirstName);
+		return this.FirstName.CompareTo((obj as Student)!.FirstName);
 	}
 else
 {
@@ -556,11 +559,18 @@ throw new Exception("Er")]
 
 
 		порівняння для любого поля Student
-public void Sort (IComparer<Student> comparer)
+public void Sort (IComparer<Student> comparer)	//імлементуємо IComparer<Student> депишемо реалізацію
 	{
 	 Array.Sort(students, comparer);
 	}
 
+
+class BirthdateComparer : IComparer<Student>		//як тут імплементуємо IComparer<Student>
+    {
+        public int Compare(Student? x, Student? y)
+        {
+            return x!.Birthdate.CompareTo(y!.Birthdate);
+        }
 
 auditory.Sort(new BirthdateComparer());
 	foreach (Student st in auditory)
@@ -571,10 +581,13 @@ auditory.Sort(new BirthdateComparer());
 	
 			---Клонування--- Iclonable
 			
+власні типи данних - глибоке копіювання			
+			
+			
 public object Clone()
 	{
-		Student temp = (Student)this.MemberwiseClone();
-		//shallow copy
+		Student temp = (Student)this.MemberwiseClone();		//shallow copy
+		
 		//плибоке копіювання
 		temp. StudentCard = new StudentCard()
 		  {
@@ -585,7 +598,12 @@ public object Clone()
 	}
 	
 	
-ENUM - набір чилочисельних констант
+enum - набір чилочисельних констант
+
+ enum DayOfWeek				//const int Monday = 0;
+    {
+        Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+    }
 
 	виведнення значення  і його
 foreach (Discount item in values)
