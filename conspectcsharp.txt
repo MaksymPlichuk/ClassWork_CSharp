@@ -616,3 +616,86 @@ foreach (Discount item in values)
 					
 Делегат — це тип, який представляє метод з певною сигнатурою. 
 	Можна зберігати методи у змінних і викликати їх пізніше. Делегати дуже схожі на вказівники на функції у C++.
+	
+Делегат - вказівник на функцію(силочний тип який дозволяє зберігати		//основа віконних додатків
+				посилання на методи або ф-ції заданої сигнатури(тип поврнення, аргумент який передав))
+							
+readonly property - property який має тільки get
+
+
+	MultycastDelegate - можливість записати на delegat декілька адреси
+
+
+ ---
+ public delegate double DoubleDelegate(); // створ делегат(як класс)
+
+
+ class SuperClass
+    {
+		public static double GetKoef() 		//делегат орієнтується по типу данних(double)
+			{
+				return new Random().NextDouble();
+			}
+	}
+	
+	
+DoubleDelegate deleg = new DoubleDelegate(SuperClass.GetKoef);		//прив'язуємо GetKoef до делегата
+		//or
+DoubleDelegate deleg =  SuperClass.GetKoef;		//deleg тепер робить те, що і функція без ()
+
+
+Console.WriteLine(deleg()); //те саме що//   Console.WriteLine(SuperClass.GetKoef()); 
+
+
+Print.Invoke 	//те саме що// 	Print()
+
+
+deleg?.Invoke() 		//? - перевіряє чи null, якщо ні то викликається Invoke
+
+
+
+
+	---на один делегат записати декілька ф-цій---
+
+voidDelegate += superClass.Test
+
+	//or
+ DoubleDelegate[] doubleDelegate = new DoubleDelegate[2] {
+       SuperClass.GetKoef,
+       superClass.GetNumber
+  };
+
+   Console.WriteLine(doubleDelegate[0]?.Invoke());
+   Console.WriteLine(doubleDelegate[1]?.Invoke());
+
+
+--Anonymos Delegates, Lambda--
+
+ public delegate int ChangeDelegate(int a); //створ делегат
+ 
+  static void ChangeArr(int[] arr, ChangeDelegate change )
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = change(arr[i]);
+            }
+        }
+		
+static int Increment(int n)
+        {
+            return ++n;
+        }
+
+main{...
+	
+			ChangeArr(arr, Increment);
+		
+		
+            //anonymus delegate -------- 2 ---------
+			
+            ChangeArr(arr, delegate (int n) { return --n; });
+			
+			
+            //lambda expresion  ---------- 3 --------- 
+			
+            ChangeArr(arr,(n) => --n);
