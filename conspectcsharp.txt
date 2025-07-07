@@ -720,3 +720,17 @@ event - безпечний делегат який тільки може += і -
 	
 //тому 	Exchange exchange = new Exchange() { MinVal = 39, MaxVal = 46 };
 		exchange.ExcRate = 40;
+.....
+
+--------------------------------------------------------------
+					-13_GarbageCollector-		
+
+GarbageCollector - недетермінований (ми на нього не впливаємо)
+
+using (FileStream str = new FileStream("Hello.txt", FileMode.Create))
+{
+//write...read
+//ex
+}//str.Dispose
+
+всередені using створ об'єкт
