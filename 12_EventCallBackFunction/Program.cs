@@ -1,6 +1,6 @@
 ﻿namespace _12_EventCallBackFunction
 {
-    //public event birga delegate//vsi treyder
+    //public event birga delegate
     class Exchange
     {
         private double excRate;
@@ -10,8 +10,10 @@
             get { return excRate; }
             set
             {
-                if (value > 0)
+                if (value > 0) { 
                     excRate = value;
+                    MyActionDelegate?.Invoke(excRate);
+                }
                 else value = 0;
             }
         }
@@ -26,12 +28,17 @@
         }
         public Exchange(double ec, double min, double max)
         {
-            ExcRate = ec;
+            excRate = ec;
             MinVal = min;
             MaxVal = max;
         }
-        //List<Trader> traders = new List<Trader>();
         public event MyActionDelegate MyActionDelegate;
+        public void ChangeRate(double newRate)
+        {
+            Console.WriteLine($"Changing rate form {ExcRate} to {newRate}");
+            ExcRate = newRate;
+            Console.WriteLine();
+        }
     }
     public delegate void MyActionDelegate(double ExcRate);
     class Trader
@@ -49,30 +56,52 @@
             Name = n; CurrencyAmmont = a;
         }
         public void MyAction(double ExcRate) {
+
+            Console.WriteLine($"Trader {Name} sees rate: {ExcRate}");
             if (ExcRate < 42)
             {
-                Console.WriteLine("I buy USDT");
+                Console.WriteLine($"{Name}: I buy USDT for {ExcRate}");
             }
-            if (ExcRate > 45)
+            else if (ExcRate > 45)
             {
-                Console.WriteLine("I sell USDT");
+                Console.WriteLine($"{Name}: I sell USDT for {ExcRate}");
             }
-            else { Console.WriteLine("Im am holding"); }
+            else { Console.WriteLine($"{Name}: Im am holding"); }
         }
     }
     internal class Program
     {
         static void Main(string[] args)
         {
-            Exchange exchange = new Exchange() { 40, 39, 46 };
-            
+            Exchange exchange = new Exchange() { MinVal = 39, MaxVal = 46 };
+            exchange.ExcRate = 40;
 
-            foreach (Student student in students)
+            List<Trader> traders = new List<Trader>();
+            Trader t1 = new Trader() {Name = "Bill", CurrencyAmmont = 5000};
+            Trader t2 = new Trader() {Name = "John", CurrencyAmmont = 3000};
+            Trader t3 = new Trader() {Name = "Ivan", CurrencyAmmont = 25000};
+
+            traders.Add(t1);
+            traders.Add(t2);
+            traders.Add(t3);
+
+            foreach (Trader tr in traders)
             {
-                //teacher.ExamDelegate +=  new ExamDelegate(student.PassExam);
-                teacher.ExamEvent += new ExamDelegate(student.PassExam);
+                exchange.MyActionDelegate += tr.MyAction;
             }
-            
+
+            Console.WriteLine($"Starting Rate: {exchange.ExcRate}");
+            Console.WriteLine();
+
+            Console.WriteLine($"Changing rate to 41:");
+            exchange.ChangeRate(41);
+            Console.WriteLine();
+
+            exchange.ChangeRate(46);
+            Console.WriteLine();
+
+            exchange.ChangeRate(40);
+            Console.WriteLine();
         }
     }
 }
