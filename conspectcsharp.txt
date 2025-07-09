@@ -734,3 +734,61 @@ using (FileStream str = new FileStream("Hello.txt", FileMode.Create))
 }//str.Dispose
 
 всередені using створ об'єкт
+
+--------------------------------------------------------------
+					-15_GenericCollections-	
+Generics - дозволяють створювати класи, методи, інтерфейси та 
+делегати, які працюють з будь-яким типом даних (int, string, float, 
+свої класи тощо) без дублювання коду
+
+	нестардартний Stack stack			
+stack
+
+peek - показує на вершині
+pop - видаляє останній
+push - дає в кінець
+
+
+boixng - із стат в дин	 stack - heap
+
+obj - reference тип(heap)
+
+
+//boxing
+obj = (object) number;//value ref
+Console.WriteLine(obj);
+
+//unboxing
+number = (int)obj;
+Console.WriteLine(number);
+
+
+не generic - майже не використ
+
+для //unboxing
+int res = (int)myClass;
+
+	public static implicit operator int(MyClass p)
+	{
+		return p.num;
+	}
+
+//boxing
+MyClass myClass = new MyClass(number);//value => ref
+
+
+	==Generics==
+	Classes
+	Structures
+	Collection
+	Methods
+	Interface
+	Delegate
+	
+	interface IMyComparable<T> {	//аблонний інтерфейс
+		void CompareMyObject(T obj1, T obj2);
+	}
+
+
+Point point1 = new Point(); 	//new create dynamic memory
+Time time = new Time();			//invoke default constructor

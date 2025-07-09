@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12_EventCallBackFunction", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14_Dictionary", "14_Dictionary\14_Dictionary.csproj", "{7311FCD5-0FD9-4D0F-95C7-1A1B5CCEBB5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "15_Generics", "15_Generics\15_Generics.csproj", "{961BB0EA-9B74-4F2E-8600-9A2DC798637B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{7311FCD5-0FD9-4D0F-95C7-1A1B5CCEBB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7311FCD5-0FD9-4D0F-95C7-1A1B5CCEBB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7311FCD5-0FD9-4D0F-95C7-1A1B5CCEBB5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{961BB0EA-9B74-4F2E-8600-9A2DC798637B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{961BB0EA-9B74-4F2E-8600-9A2DC798637B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{961BB0EA-9B74-4F2E-8600-9A2DC798637B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{961BB0EA-9B74-4F2E-8600-9A2DC798637B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
