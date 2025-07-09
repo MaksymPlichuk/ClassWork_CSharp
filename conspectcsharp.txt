@@ -722,6 +722,21 @@ event - безпечний делегат який тільки може += і -
 		exchange.ExcRate = 40;
 .....
 
+
+extensions - якщо є бібліотека і нехватає методу і його будемо часто використ
+
+щоб створити розширення class має бути static
+
+static class ExampleExtension
+    {
+        public static int NumberWords(this string data)		//обов'язково для extension (this string data)
+        {
+            if(string.IsNullOrEmpty(data)) return 0;		//data інформація від якої приходить алгоритм
+            return data.Split(new char[] {' ',',','!'}, 
+                StringSplitOptions.RemoveEmptyEntries).Length;
+        }
+}
+
 --------------------------------------------------------------
 					-13_GarbageCollector-		
 
