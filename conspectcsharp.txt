@@ -740,7 +740,14 @@ static class ExampleExtension
 --------------------------------------------------------------
 					-13_GarbageCollector-		
 
+GarbageCollector - автоматичний механізм управління пам'яттю
+
+Поки на об'єкт є посилання CLR не буде його чистити
+
 GarbageCollector - недетермінований (ми на нього не впливаємо)
+	//неможливо знати коли він запуститься
+
+
 
 using (FileStream str = new FileStream("Hello.txt", FileMode.Create))
 {
@@ -748,8 +755,31 @@ using (FileStream str = new FileStream("Hello.txt", FileMode.Create))
 //ex
 }//str.Dispose
 
-всередені using створ об'єкт
+всередені using створ об'єкт і виконується IDisposeable який закриває файл
 
+синтакстичний цукор C# - конструкції мови, які спрощують код, роблячи його більш читабельним і лаконічним, 
+	але не додають нової функціональності
+	
+	Методи розширення (Extension Methods)
+	Автоматичні властивості (Automatic Properties)
+	Лямбда-вирази (Lambda Expressions):
+	Рядки, що інтерполюються (String Interpolation)
+	Крапка з комою (;) у кінці рядка
+
+
+				-14_Dictionary-	
+				
+ключі мають бути унікальними
+
+Dictionary<string, string> countries = new Dictionary<string, string>();
+ 
+    countries.Add("UA", "Ukraine");
+	
+foreach (KeyValuePair<string,string> country in countries)
+            {
+                Console.WriteLine($"Key : {country.Key,5}. Value {country.Value,20}");
+            }
+ 
 --------------------------------------------------------------
 					-15_GenericCollections-	
 Generics - дозволяють створювати класи, методи, інтерфейси та 
