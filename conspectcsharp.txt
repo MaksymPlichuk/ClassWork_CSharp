@@ -742,7 +742,9 @@ static class ExampleExtension
 
 GarbageCollector - автоматичний механізм управління пам'яттю
 
+
 Поки на об'єкт є посилання CLR не буде його чистити
+
 
 GarbageCollector - недетермінований (ми на нього не впливаємо)
 	//неможливо знати коли він запуститься
@@ -755,7 +757,9 @@ using (FileStream str = new FileStream("Hello.txt", FileMode.Create))
 //ex
 }//str.Dispose
 
+
 всередені using створ об'єкт і виконується IDisposeable який закриває файл
+
 
 синтакстичний цукор C# - конструкції мови, які спрощують код, роблячи його більш читабельним і лаконічним, 
 	але не додають нової функціональності
@@ -771,6 +775,7 @@ using (FileStream str = new FileStream("Hello.txt", FileMode.Create))
 				
 ключі мають бути унікальними
 
+
 Dictionary<string, string> countries = new Dictionary<string, string>();
  
     countries.Add("UA", "Ukraine");
@@ -782,35 +787,49 @@ foreach (KeyValuePair<string,string> country in countries)
  
 --------------------------------------------------------------
 					-15_GenericCollections-	
+					
 Generics - дозволяють створювати класи, методи, інтерфейси та 
 делегати, які працюють з будь-яким типом даних (int, string, float, 
-свої класи тощо) без дублювання коду
+свої класи тощо) без дублювання коду	(ШАБЛЛОНИ)
 
-	нестардартний Stack stack			
-stack
+НЕ generic - стандартні колеції які дає мова програмування
+
+
+не узагальнені колецкії зберігаються у 		//using System.Collections
+		 //(зберігають об'єкти типу данних obj)
+
+
+	нестардартний Stack stack
+
+	Stack<T> - generic 		Stack - не generic
+	
+stack - не generic повртає obj
 
 peek - показує на вершині
 pop - видаляє останній
 push - дає в кінець
 
+---------
 
-boixng - із стат в дин	 stack - heap
+boixng - із стат в дин	 stack -> heap
 
 obj - reference тип(heap)
 
 
 //boxing
-obj = (object) number;//value ref
+obj = (object) number;		//value -> ref
 Console.WriteLine(obj);
 
 //unboxing
-number = (int)obj;
+number = (int)obj;			//ref -> value
 Console.WriteLine(number);
 
 
 не generic - майже не використ
 
+
 для //unboxing
+
 int res = (int)myClass;
 
 	public static implicit operator int(MyClass p)
@@ -819,10 +838,25 @@ int res = (int)myClass;
 	}
 
 //boxing
-MyClass myClass = new MyClass(number);//value => ref
+
+MyClass myClass = new MyClass(number);		//value => ref
+
+sortedList - словник у якому елем сортуються по ключам							//приймають і повертають obj
+Hashtable -  словник у якому для ключа з'яв хешкод(унікальне знач за GetHashCode)	//не є generic
+
+==Generics==				==НЕ Generics==
+	Collection <T>				CollectionBase
+	List <T>					ArrayList
+	Dictionary <TKey,TValue>	Hashtable
+	SortedList <TKey,TValue>	SortedList
+	Stack <T>					Stack
+	Queue <T>					Queue
+	LinkedList <T>				нет
 
 
-	==Generics==
+using System.Collections.Generic
+
+	==що може бути Generics==	
 	Classes
 	Structures
 	Collection
@@ -830,10 +864,26 @@ MyClass myClass = new MyClass(number);//value => ref
 	Interface
 	Delegate
 	
-	interface IMyComparable<T> {	//аблонний інтерфейс
+
+//generic Delegate
+
+    public delegate Type SummaDelegateTemplate<Type>(Type a, Type b);	
+	
+	
+//generic Interface
+
+	interface IMyComparable<T> {	//шаблонний інтерфейс
 		void CompareMyObject(T obj1, T obj2);
 	}
 
 
+default(Type) - встанов дефолтне знач при любом типу данних 
+
+dynamic - тип визначається на етапі ВИКОНАННЯ
+
+
 Point point1 = new Point(); 	//new create dynamic memory
 Time time = new Time();			//invoke default constructor
+
+
+CompareTo повертає -1 якщо менше, 0 якщо рівно, +1 якщо більше
