@@ -887,3 +887,26 @@ Time time = new Time();			//invoke default constructor
 
 
 CompareTo повертає -1 якщо менше, 0 якщо рівно, +1 якщо більше
+
+--------------------------------------------------------------
+					-16_WorkWIthFile-
+					
+static void WriteFile(string path)
+	{
+FileStream fileStream = new FileStream("text.txt", 
+	FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read)				
+	
+	}				
+					
+using ( FileStream fileStream = new FileStream("text.txt", 
+	FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read)) 
+	
+	
+string path = $@"{Environment.GetFolderPath (Environment. SpecialFolder. Desktop)}\text.txt";
+WriteFile("Text.txt");
+
+програма визначає де буде файл
+
+	
+ReadAsync - вікно не фризиться робиться без заморозки програми	
+
