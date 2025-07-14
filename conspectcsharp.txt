@@ -910,3 +910,75 @@ WriteFile("Text.txt");
 	
 ReadAsync - вікно не фризиться робиться без заморозки програми	
 
+--------------------------------------------------------------
+					-17_Attributes-
+					
+Atributes - додають додаткову інформацію для полів
+
+
+[Obsolete] - атрибут що означ клас застарілий
+
+[Searializable] - помічає клас що його може сеаріалізувати / 
+	процес збереження стану об'єктва в будь якому потоці з можливостю його відновлення 
+
+
+
+[AttributeUsage(AttributeTargets.Method)] - вказ для чого атрибут / де його можна використ 
+
+
+
+class CoderAttribute: Attribut{.....
+...}
+
+[CoderAttribute]
+class Employee{..
+	[CoderAttribute]	//виклип дефолтний конструктор у класі кодер
+..}
+
+Сеарилізація об'єктів - бінарний формат
+
+
+using System.ComponentModel.DataAnnotations; /підключення
+
+DataAnotation Atribbute - перевіряють проперті на правельність
+
+
+[Required(ErrorMessage ="Name not setted")]
+[StringLength(50, MinimumLength =3, ErrorMessage = "Wrong lenght")]
+
+public string Name { get; set; }	//атрибути на проперті
+
+
+
+//JSON serialize 
+
+            List<Person> persons = new List<Person>()
+            {
+              new Person(123654){ Name="Jack", Age = 15},
+              new Person(123654){ Name="Tom", Age = 12},
+              new Person(123654){ Name="Bill", Age = 35},
+              new Person(123654){ Name="John", Age = 47}
+            };
+            string fileName = "Person.json";
+            string jsonString = JsonSerializer.Serialize(persons);
+            File.WriteAllText(fileName, jsonString);
+
+
+//Зчитування
+
+            List<Person> newPersons = null;
+            jsonString = File.ReadAllText(fileName);
+            newPersons = JsonSerializer.Deserialize<List<Person>>(jsonString)!;
+         
+            foreach (var item in newPersons)
+            {
+                Console.WriteLine(item);
+            }
+
+
+https://github.com/IliushynOlena/PD411_CSharp/blob/master/17_01_Attributes/Program.cs
+https://github.com/IliushynOlena/PD411_CSharp/blob/master/17_2_BinarySerialize/Program.cs
+https://github.com/IliushynOlena/PD411_CSharp/blob/master/17_3_XML_JsonSerialization/Program.cs
+https://github.com/IliushynOlena/PD411_CSharp/blob/master/17_4_DataAnnotations/Program.cs
+
+
