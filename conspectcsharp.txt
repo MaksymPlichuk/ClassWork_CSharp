@@ -890,25 +890,105 @@ CompareTo повертає -1 якщо менше, 0 якщо рівно, +1 я�
 
 --------------------------------------------------------------
 					-16_WorkWIthFile-
+
 					
-static void WriteFile(string path)
-	{
-FileStream fileStream = new FileStream("text.txt", 
-	FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read)				
-	
+	static void WriteFile(string path)
+		{
+		
+		// де буде створений	режим		для чого			режим спільного використ
+		
+//FileStream( string path, FileMode mode, FileAccess access, FileShare share)
+		
+		
+	FileStream fileStream = new FileStream("text.txt", 
+		FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read)				
+			
 	}				
+
+
 					
 using ( FileStream fileStream = new FileStream("text.txt", 
-	FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read)) 
+	FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read)){
 	
+	
+	//Doing some work...	//filesteam доступний лише в {} using і 
+									вкінці викличе fileStream.Dispose()
+	
+	
+	}
+	
+	
+//програма визначає де буде файл		
 	
 string path = $@"{Environment.GetFolderPath (Environment. SpecialFolder. Desktop)}\text.txt";
 WriteFile("Text.txt");
-
-програма визначає де буде файл
-
 	
 ReadAsync - вікно не фризиться робиться без заморозки програми	
+
+
+
+
+ static void WriteFile(string path)
+        { using (FileStream fs = new FileStream(path, FileMode.Create, 
+                FileAccess.Write,FileShare.None))
+            {
+
+                Console.WriteLine("Enter some text : ");
+                string writeText = Console.ReadLine();
+
+                byte[] writeBites = Encoding.Default.GetBytes(writeText);
+                fs.Write(writeBites,0, writeBites.Length);
+
+                Console.WriteLine("File was recorded!!!!");
+
+            }
+
+		}
+
+
+ static string ReadFile(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Open,
+                FileAccess.Read))
+            {
+                byte[]readBytes = new byte[fs.Length];
+                fs.Read(readBytes, 0, readBytes.Length);
+                return Encoding.Default.GetString(readBytes);
+            }
+        }
+
+
+			=======АБО=======
+				
+				
+ static void WriteTextFormat(string path)
+        {
+            using (StreamWriter sw = new StreamWriter(path))
+            {
+			
+			
+			 Console.WriteLine("Enter some text : ");
+             string writeText = Console.ReadLine();
+
+             sw.WriteLine(writeText);
+			 
+			 
+            }
+        }
+		
+ static void ReadTextFormat(string path)
+ {
+     using (StreamReader sr = new StreamReader(path))
+     {
+
+         while (!sr.EndOfStream)
+         {
+             Console.WriteLine(sr.ReadLine() + "!!!");
+         }
+		 
+     }
+ }				
+
 
 --------------------------------------------------------------
 					-17_Attributes-
