@@ -1062,3 +1062,38 @@ https://github.com/IliushynOlena/PD411_CSharp/blob/master/17_3_XML_JsonSerializa
 https://github.com/IliushynOlena/PD411_CSharp/blob/master/17_4_DataAnnotations/Program.cs
 
 
+--------------------------------------------------------------
+					-18_RegularExpressions-
+Створити  Regex
+
+string pattern2 = @"\D+";
+Regex regex2 = new Regex (pattern2);	
+
+	regex2.IsMatch(str2) // перевірка чи підїодить str2
+	
+	
+сайт для Regex: https://saschadens.github.io/
+	
+	
+\d Визначає символи цифр.
+\D Визначає любий символ, який не є цифрою.
+				
+\. Крапки
+\w Слова
+\s Пробіли
+\/ Слеши
+
+. - будь який один символ
+
+[^@\s] - невходить //gsor(^) в квадратних дужках
+
+			Квантифікатори
+			
+
+				
+ ^\w{3,}\@\w+\.\w+$  	//Весь рядок				
+ 
+ @"s\w+d" - поч на s закінчна d
+ 
+ 
+ 
