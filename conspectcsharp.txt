@@ -709,10 +709,14 @@ CallBackFunction - ф-ції які викликають в кінці
 				
 public event ExamDelegate - дає публічний доступ через -= +=
 
+
+
 event - безпечний делегат який тільки може += і -= зберігає інкапсуляцію			
 
 
 Якщо подія викликається в конструкторі, то на неї ще ніхто не підписаний, тому нічого не станеться.
+
+
 
 Якщо в конструкторі використати: ExcRate = ec:
 
@@ -725,7 +729,11 @@ event - безпечний делегат який тільки може += і -
 
 extensions - якщо є бібліотека і нехватає методу і його будемо часто використ
 
+
+
 щоб створити розширення class має бути static
+
+
 
 static class ExampleExtension
     {
@@ -1064,7 +1072,7 @@ https://github.com/IliushynOlena/PD411_CSharp/blob/master/17_4_DataAnnotations/P
 
 --------------------------------------------------------------
 					-18_RegularExpressions-
-Створити  Regex
+Створити  Regex - віладація
 
 string pattern2 = @"\D+";
 Regex regex2 = new Regex (pattern2);	
@@ -1096,4 +1104,113 @@ Regex regex2 = new Regex (pattern2);
  @"s\w+d" - поч на s закінчна d
  
  
- 
+--------------------------------------------------------------
+					-19_LINQ-
+
+LINQ - працюють з копіями
+	набір методів які працють з любими типами данних
+	
+ мова інтегрованих запитів які дають набір методів для роботи 
+									з колекціями будь якого типу
+
+
+			
+процес відкладеного завантаження - (як оптимізація)
+			 колекція формуєтсья коли її використовують					
+					
+
+	/*Синтаксис запиту */
+int[] arr = 5, 34, 78, 25, 46, 96, 23};
+
+
+	//var query from i in arr select i;
+IEnumerable<int> query = from i in arr select i*-1;
+
+	
+functor - метод який дає інструкцію
+	
+var res2 = arr.Select(SelectInt)
+	
+foreach (var item in res2)
+{
+	Console.Write(item + " ");
+}
+	Console.WriteLine();
+	
+
+LINQ - для отрнимання первної інформації з колеції
+
+
+
+
+
+			/*Синтаксис запиту */
+ var Query = from i in arrint where i% * 2 == 0 select i * -1;                              
+
+
+			/*Синтаксис методу */
+ Query = arrInt. Where(item => item % 2 0).Select(i=>i*-1);
+
+
+								//return if 
+var result2 = words. Where(word => word.Length == 4);
+
+
+
+
+
+				/*Сортування*/
+				
+int[] arrInt2 { 15, 7, 8, 9, 12, 14, 78, 95, 36, 15 };
+
+
+var sortedQuery from i in arrInt2
+			where i%2 == 0
+			orderby i descending //ascending(default)
+			select i;
+			
+var sortedQuery2 = arrInt2.Where(i=> i% * 2 = 0 )
+							.OrderByDescending(i=>i);
+							
+							
+							
+
+int[] arrGroup { 5, 34, 65, 12, 94, 42, 365 };
+ var queryGroup from 1 in arrGroup
+					where i > 10
+					group i by i % 10;
+
+		
+	foreach (IGrouping<int, int> item in queryGroup)
+	{
+	Console.Write(item. Key + " ");
+		foreach (var elem in item)
+		{
+		Console.Write(elem+ " ");
+		}
+	Console.WriteLine();
+	}
+	
+
+count average sum min max -
+			на основі багатьох елементів повернуть результат
+											(а не колекцію)
+				
+
+string[] soft = { "Blue", "Grey", "Yellow", "Cyan", "Grey", "Yellow" };
+string[] hard = { "Yellow", "Magenta", "White", "Blue" };
+IEnumerable<string> result3;	
+
+	
+result3 = soft. Except(hard); 		(Grey,Cyan)
+			//показує унікальні елементи в soft яких нема в hard
+			
+			
+result3 = soft. Intersect(hard);	(Blue,Yellow)
+			// показє спільні елементи
+			
+			
+
+			
+			
+			
