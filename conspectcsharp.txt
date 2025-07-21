@@ -1000,42 +1000,132 @@ ReadAsync - вікно не фризиться робиться без замо�
 
 --------------------------------------------------------------
 					-17_Attributes-
+
 					
-Atributes - додають додаткову інформацію для полів
+Atributes - додають додаткову інформацію для полів / дають змогу зробити валідацію
+		додат компоненти які пишуться над елементами
 
 
 [Obsolete] - атрибут що означ клас застарілий
 
 [Searializable] - помічає клас що його може сеаріалізувати / 
-	процес збереження стану об'єктва в будь якому потоці з можливостю його відновлення 
+	процес збереження стану об'єктва в будь якому потоці з можливостю його відновлення (запис у файл)
+
+
+using System.ComponentModel.DataAnnotations; 	//підключення для атрибутів
 
 
 
 [AttributeUsage(AttributeTargets.Method)] - вказ для чого атрибут / де його можна використ 
 
+class CoderAttribute: Attribute{
+        public string Name { get; set; } = "Olena";
+        public DateTime Date { get; set; } = DateTime.Now;
+        public CoderAttribute() { }
+        public CoderAttribute(string n, string date) {.....}
+		
+		 public override string ToString()
+        {
+            return $"{Name } : {Date}";			//при item.GetCustomAttributes<CoderAttribute>(true)
+        }									//буде виводити: Olena 14/07/2025 00:00:00(якщо ф-ця не викликана)
+}
 
 
-class CoderAttribute: Attribut{.....
-...}
 
-[CoderAttribute]
+
+[CoderAttribute]	//вказує що у класі використвоується цей атрибут
 class Employee{..
+	public double  Salary { get; set; }
+
 	[CoderAttribute]	//виклип дефолтний конструктор у класі кодер
+	public Employee() { }		//додаэ метаданні до звич конструктора які потім можна вивести
+	 
+	 [Coder("Dima","2025-07-14")]
+    public void IncreaseSalary(double sum)
+    {
+        Salary += sum;
+    }
 ..}
 
-Сеарилізація об'єктів - бінарний формат
+
+ Console.WriteLine("Attributes of members of class Employee");
+            foreach (MemberInfo item in typeof(Employee).GetMembers())
+            {
+                Console.WriteLine("\t" + item.ToString());
+                foreach (var attr in item.GetCustomAttributes<CoderAttribute>(true)) //виводить атрибути у item
+                {														// атрибут доповним клас додатковою 
+                    Console.WriteLine("\t\t" + attr);						// прихованою інформацією
+                }
+            }
 
 
-using System.ComponentModel.DataAnnotations; /підключення
-
-DataAnotation Atribbute - перевіряють проперті на правельність
 
 
-[Required(ErrorMessage ="Name not setted")]
-[StringLength(50, MinimumLength =3, ErrorMessage = "Wrong lenght")]
+Сеарилізація об'єктів - бінарний формат/
+		об'єкт може бути перетворений у потік байтів (серіалізований) 
+	для зберігання або передачі, а потім відновлений з цього потоку (десеріалізований) - запис у XML/JSON
 
-public string Name { get; set; }	//атрибути на проперті
 
+//Binary serialize
+
+	[Serializable] 		//познач що файл можна записати
+	
+    public class Person
+    {
+        public Passport Passport { get; set; }....
+	}
+
+
+
+		BinaryFormatter formatter = new BinaryFormatter();
+
+			
+
+			using (Stream fstream = File.Create("Persons.bin"))		//записує
+					{
+						formatter.Serialize(fstream, persons);
+					}
+		Console.WriteLine("BinaryFormatter is OK!!!");
+
+
+		Person p = null;
+				using (Stream fsStream = File.OpenRead("test.bin"))		//зчитує
+				{
+					p = (Person)formatter.Deserialize(fsStream);
+				}
+		   
+
+
+//XML JSON > Binary  бо не треба додавати атрибут [Serializable]
+	XML JSON - працюють з приватними змінними	//Бінарно - через проперті
+
+
+//XML serialize
+
+
+		XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Person>));
+          
+          
+              using (Stream fs = File.Create("persons.xml"))
+              {
+                  xmlSerializer.Serialize(fs, persons);
+              }
+              Console.WriteLine("XmlSerializer is OK!!!");
+          
+          
+
+			List<Person> newPersons = null;
+			
+			
+			using (Stream fstream = File.OpenRead("persons.xml"))
+			  {
+				  newPersons = (List<Person>)xmlSerializer.Deserialize(fstream);
+			  }
+			  
+          foreach (var item in newPersons)
+          {
+              Console.WriteLine(item);
+          }
 
 
 //JSON serialize 
@@ -1055,13 +1145,30 @@ public string Name { get; set; }	//атрибути на проперті
 //Зчитування
 
             List<Person> newPersons = null;
+			
             jsonString = File.ReadAllText(fileName);
+			
             newPersons = JsonSerializer.Deserialize<List<Person>>(jsonString)!;
          
             foreach (var item in newPersons)
             {
                 Console.WriteLine(item);
             }
+
+
+
+
+[Required] - обов'язкове поле
+
+
+DataAnotation або Atribbute - перевіряють проперті на правельність
+
+
+[Required(ErrorMessage ="Name not setted")]
+[StringLength(50, MinimumLength =3, ErrorMessage = "Wrong lenght")]
+
+public string Name { get; set; }	//атрибути на проперті
+
 
 
 https://github.com/IliushynOlena/PD411_CSharp/blob/master/17_01_Attributes/Program.cs
