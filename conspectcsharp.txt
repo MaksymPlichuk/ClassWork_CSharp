@@ -1181,29 +1181,77 @@ https://github.com/IliushynOlena/PD411_CSharp/blob/master/17_4_DataAnnotations/P
 					-18_RegularExpressions-
 Створити  Regex - віладація
 
-string pattern2 = @"\D+";
-Regex regex2 = new Regex (pattern2);	
 
-	regex2.IsMatch(str2) // перевірка чи підїодить str2
+string pattern2 = @"\D+";
+	
+	
+ Regex regex2 = new Regex (pattern2);	
+	regex2.IsMatch(str2) 	// перевірка чи підїодить str2 (true/false)
+	
+	
+	
+string value = "4 - 5 AND 5 y 578";
+	
+	
+  Match m = Regex.Match(value, @"\d");
+	 if(m.Success)
+            {
+                Console.WriteLine(m.Value);		//якщо виходить виводить результат
+				Console.WriteLine(m1.Index);	//індекс з якого співпадіння
+                Console.WriteLine(m1.Length);	//довжина співпадіння
+            }
+	
+	
+string value1 = "saidsaid said shed shed see sprear spread super";
+	
+	
+        MatchCollection coll =  Regex.Matches(value1, @"s\w+d");	//робить колекцію з записів що підійшли
+			foreach (Match match in coll)
+            {
+                Console.WriteLine($"Index = {match.Index}. Value : {match.Value}");		
+            }
+			
+
+      string output1 = Regex.Replace(value1, "s.+d", "white");		//заміняє всі слова що почин на 's' і закінч на 'd'
+           Console.WriteLine(output1);
 	
 	
 сайт для Regex: https://saschadens.github.io/
 	
 	
-\d Визначає символи цифр.
-\D Визначає любий символ, який не є цифрою.
+	
+	СПЕЦ. СИМВОЛИ
+        \d - Визначає символи цифр. 
+        \D - Визначає любий символ, який не є цифрою. 
+        \w - Визначає любий символ цифри, букви або нижнє підкреслення. 
+        \W - Визначає любий символ, який не є цифрою, буквою або нижнім 
+             підкресленням.. 
+        \s - Визначає любий недрукований символ, включаючи пробіл. (таб і 
+             перехід на новий рядок)
+        \S - Визначає любий символ, крім символів табуляции, нового рядка 
+             и повернення каретки.
+        .  - Визначає любий символ крім символа нового рядка.  
 				
-\. Крапки
-\w Слова
-\s Пробіли
-\/ Слеши
 
-. - будь який один символ
-
-[^@\s] - невходить //gsor(^) в квадратних дужках
-
-			Квантифікатори
+		\. Крапки
+		\w Слова
+		\s Пробіли
+		\/ Слеши
+		
+		. - будь який символ
+	
+	
+	Квантифікатори
 			
+            ^ - з початку рядка. 
+            $ - з кінця рядка. 
+            * - 0 і більше входжень підшаблону в сторці.  
+            + - 1 і більше  входжень підшаблону в сторці.  
+            ? - 0 чи 1  входження підшаблону в сторці. 
+	
+
+[^@\s] 		//gsor(^) в квадратних дужках ВКАЗУЄ ЩО НЕВХОДИТЬ
+
 
 				
  ^\w{3,}\@\w+\.\w+$  	//Весь рядок				
