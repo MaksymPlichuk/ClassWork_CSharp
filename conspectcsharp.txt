@@ -1365,7 +1365,17 @@ result3 = soft. Intersect(hard);	(Blue,Yellow)
 			// показє спільні елементи
 			
 			
+--------------------------------------------------------------
+					-20_UML-
+			
+UML - unified modeling language		
 
+
+use case diagram - зображує взаємодію між actor і діями
+
+
+			
+			
 			
 			
 			
