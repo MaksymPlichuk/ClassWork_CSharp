@@ -1368,10 +1368,21 @@ result3 = soft. Intersect(hard);	(Blue,Yellow)
 --------------------------------------------------------------
 					-20_UML-
 			
-UML - unified modeling language		
+UML - unified modeling language		//уніфікована мова програмування (набір різних діаграм)
 
+	найчастіші діаграми:
 
 use case diagram - зображує взаємодію між actor і діями
+
+class diagram
+
+діаграма алгоритмів
+
+	сайти для діаграм
+	
+https://online.visual-paradigm.com/drive/#proj=0&dashboard
+
+https://app.diagrams.net/
 
 
 			
