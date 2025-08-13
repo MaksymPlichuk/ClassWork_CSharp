@@ -4,32 +4,34 @@ using System.Transactions;
 
 namespace FinalWork
 {
-    class MyDictionary
+    class MyDictionaries
     {
+        List<OneDictionary> Dictionaries;
+
+    }
+
+    class OneDictionary
+    {
+        Dictionary<string, List<string>> dict;
         public string Name { get; set; }
         public string Type { get; set; }
 
-        Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
-        public MyDictionary() {
+        public OneDictionary()
+        {
             Name = "Dictionary";
             Type = "English-Ukrainian";
         }
 
-        public MyDictionary(string n, string t)
+        public OneDictionary(string n, string t)
         {
             Name = n;
             Type = t;
         }
-    }
-
-    class DictionaryMethods
-    {
-        Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
-
         public void CreateDictionary()
         {
-            List<Dictionary<string, List<string>>> Dicts = new List<Dictionary<string, List<string>>>();
-            Console.Write("Enter Dictionary name");
+           dict = new Dictionary<string, List<string>>();
+            Console.Write("Enter Dictionary name"); Name = Console.ReadLine()!;
+            Console.Write("Enter Dictionary type"); Type = Console.ReadLine()!;
         }
         public void AddTranslation()
         {
@@ -69,7 +71,7 @@ namespace FinalWork
 
         public void FindTranslation(string key) { }
 
-        public void SaveDictionary(Dictionary dict) {
+        public void SaveDictionary(OneDictionary dict) {
             try
             {
                 string fileName = Path.Combine(Directory.GetCurrentDirectory(), $"{dict.Name}.json");
