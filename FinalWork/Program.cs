@@ -9,13 +9,21 @@ using System.Transactions;
 namespace FinalWork
 {
 
-    class OneDictionary : IEnumerable
+    class OneDictionary
     {
+        //від помилки The collection type 'FinalWork.OneDictionary' is abstract, an interface, or is read only, and could not be instantiated and populated. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+            //проблема з JSON серіалізацією/десеріалізацією класу
+
+        [JsonPropertyName("dict")]
         public Dictionary<string, List<string>> Dict { get; set; }
+
+        [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
-
+        [JsonConstructor]
         public OneDictionary()
         {
             Dict = new Dictionary<string, List<string>>();
@@ -29,14 +37,23 @@ namespace FinalWork
             Name = n;
             Type = t;
         }
-        public IEnumerator GetEnumerator()
-        {
-            return Dict.GetEnumerator();
-        }
+
+
         public OneDictionary CreateDictionary()
         {
+            var alldictts = LoadAllDictionaries();
             Dict = new Dictionary<string, List<string>>();
+
             Console.Write("Enter Dictionary name: "); Name = Console.ReadLine()!;
+
+            foreach (var dic in alldictts) {
+                 if (dic.Name == Name)
+                 {
+                    Console.Write("This Dictionary name is already taken! Enter new one: "); Name = Console.ReadLine()!;
+                    break;
+                 }
+             }
+
             Console.Write("Enter Dictionary type: "); Type = Console.ReadLine()!;
 
             var newDict = new OneDictionary(Dict, Name, Type);
@@ -52,7 +69,7 @@ namespace FinalWork
 
             while (true)
             {
-                Console.Write("Enter Dictioanary name: "); name = Console.ReadLine()!;
+                Console.Write("Enter Dictioanary name to select: "); name = Console.ReadLine()!;
 
                 for (int i = 0; i < dts.Count; i++)
                 {
@@ -102,7 +119,7 @@ namespace FinalWork
 
             while (active)
             {
-                Console.WriteLine("Press [ A ] - Write more translations\t [ B ] - Exit"); var choise = Console.ReadKey();
+                Console.WriteLine("Press [ A ] - Write more translations\t [ B ] - Exit"); var choise = Console.ReadKey(true);
 
                 if (choise.Key == ConsoleKey.A)
                 {
@@ -134,14 +151,14 @@ namespace FinalWork
                 {
                     while (true)
                     {
-                        Console.WriteLine("Press [ A ] - Change all Translations of the word\n[ B ] Change One Translation of the word\n [ C ] - Exit\n [ D ] - Chage key word"); var key2 = Console.ReadKey();
+                        Console.WriteLine("Press [ A ] - Change all Translations of the word\n [ B ] Change One Translation of the word\n [ C ] - Exit\n [ D ] - Chage key word"); var key2 = Console.ReadKey(true);
                         if (key2.Key == ConsoleKey.A)   //Очистка всіх минулих перекладів і добавка нових
                         {
                             dict.Dict[key].Clear();
                             while (true)
                             {
                                 Console.Write($"Write translation for {key}: "); translation = Console.ReadLine()!; dict.Dict[key].Add(translation);
-                                Console.WriteLine("Write more translations?\n [ Y ] - yes\n [ N ] - no"); var key3 = Console.ReadKey();
+                                Console.WriteLine("Write more translations?\n [ Y ] - yes\n [ N ] - no"); var key3 = Console.ReadKey(true);
                                 if (key3.Key == ConsoleKey.Y) { Console.WriteLine(); }
                                 else if (key3.Key == ConsoleKey.N) { break; }
                                 else { break; }
@@ -151,9 +168,9 @@ namespace FinalWork
                         else if (key2.Key == ConsoleKey.B)  //замінити старий 1 переклад
                         {
                             Console.WriteLine("All translations: ");    //показ всі переклади
-                            foreach (var val in dict.Dict.Values)
+                            foreach (var val in dict.Dict)
                             {
-                                Console.WriteLine($" {val}");
+                                Console.WriteLine($"{string.Join(", ", val.Value)}");
                             }
                             while (true)    //пошук введеного слова як старий переклад і заміна його на новий
                             {
@@ -164,7 +181,7 @@ namespace FinalWork
                                 else if (dict.Dict[key].Contains(oldTranslation))
                                 {
 
-                                    Console.Write("Enter new translation"); string newTranslation = Console.ReadLine()!;
+                                    Console.Write("Enter new translation: "); string newTranslation = Console.ReadLine()!;
                                     dict.Dict[key].Remove(oldTranslation); dict.Dict[key].Add(newTranslation);
                                     Console.WriteLine("Old Translation was succesfully replaced!");
                                     SaveDictionary(dict); return;
@@ -200,12 +217,12 @@ namespace FinalWork
 
             //просто показ всі слова і переклади
             Console.WriteLine("==All words and translations==");
-            foreach (var k in dict.Dict.Keys)
+            foreach (var k in dict.Dict)
             {
-                Console.Write($"{i,2}. Key: {k,-5} Translations: ");
-                foreach (var t in k)
+                Console.Write($"{i,2}. Key: {k.Key,-5} Translations: ");
+                foreach (var t in k.Value)
                 {
-                    Console.Write(t);
+                    Console.Write($"{t + ", " }");
                 }
                 Console.WriteLine();
                 i++;
@@ -249,6 +266,7 @@ namespace FinalWork
                 }
                 Console.WriteLine();
             }
+            else { Console.WriteLine($"Word {ts} wasn't found!"); }
         }
 
         public void SaveDictionary(OneDictionary dict)
@@ -270,7 +288,7 @@ namespace FinalWork
             string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "MyDictionaries");
             string filePath = Path.Combine(folderPath, $"{dict.Name}.json");
 
-            if (!File.Exists(folderPath))
+            if (!Directory.Exists(folderPath))
             {
                 Console.WriteLine("No Dictionaries found!");
                 return;
@@ -278,18 +296,11 @@ namespace FinalWork
             try
             {
 
-                Console.WriteLine($"----{dict.Name}----");
-                Console.WriteLine($"----{dict.Type}----");
-                Console.WriteLine($"{"--info--",2}");
 
                 OneDictionary newDictionary = null;
                 string jsonString = File.ReadAllText(filePath);
                 newDictionary = JsonSerializer.Deserialize<OneDictionary>(jsonString)!;
 
-                foreach (var item in newDictionary)
-                {
-                    Console.WriteLine(item);
-                }
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
 
@@ -306,10 +317,19 @@ namespace FinalWork
 
                 foreach (var f in files)
                 {
-                    string jsonString = File.ReadAllText(f);
-                    OneDictionary d = JsonSerializer.Deserialize<OneDictionary>(jsonString)!;
+                    try
+                    {
+                        string jsonString = File.ReadAllText(f);
+                        OneDictionary d = JsonSerializer.Deserialize<OneDictionary>(jsonString)!;
 
-                    allDictionaries.Add(d);
+                        allDictionaries.Add(d);
+                    }
+                    catch (Exception ex)
+                    {
+                        //File error? Test.json: The JSON value could not be converted to FinalWork.OneDictionary. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+                        Console.WriteLine($"File error {Path.GetFileName(f)}: {ex.Message}");
+                    }
+                   
                 }
             }
 
@@ -325,29 +345,30 @@ namespace FinalWork
             foreach (var dic in alldicts)
             {
                 
-                Console.WriteLine(dic.Name);
-                Console.WriteLine(dic.Type);
+                Console.WriteLine($"Name: {dic.Name}");
+                Console.WriteLine($"Type: {dic.Type}\n");
             }
             Console.WriteLine("Show all Dictionaries translations?\n [ Y ] - yes\n [ N ] - no");
             while (true)
             {
 
-                var keyInfo = Console.ReadKey();
+                var keyInfo = Console.ReadKey(true);
 
 
                 if (keyInfo.Key == ConsoleKey.Y)
                 {
                     foreach (var dic in alldicts)
                     {
-                        Console.WriteLine($"----{dic.Name}----");
-                        Console.WriteLine($"----{dic.Type}----");
-                        Console.WriteLine($"{"--info--",2}");
+                        Console.WriteLine($"\nName: {dic.Name}");
+                        Console.WriteLine($"Type: {dic.Type}");
+                        Console.WriteLine($"\t--------");
                         foreach (var ts in dic.Dict)
-                        {
-                            Console.WriteLine(ts);
+                        {                               //щоб не було Word Dog: Translation System.Collections.Generic.List1[System.String]
+                            Console.WriteLine($"Word {ts.Key,10}: Translation:\t {string.Join(", ", ts.Value)}");
                         }
                         Console.WriteLine();
                     }
+                    return;
                 }
                 else if (keyInfo.Key == ConsoleKey.N)
                 {
@@ -375,12 +396,22 @@ namespace FinalWork
                     if (dic.Name == dicname)
                     {                                   //підтвердження
                         Console.WriteLine($"Do you really want to delete {dic.Name}?\nPress [ Y ] - to continue\n [ N ] to cancel\n [ E ] - to exit");
-                        var keyInfo = Console.ReadKey();
+                        var keyInfo = Console.ReadKey(true);
 
                         if (keyInfo.Key == ConsoleKey.Y)
                         {
-                            alldicts.Remove(dic);
-                            Console.WriteLine($"{dic.Name} was succesfully removed!");
+                            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "MyDictionaries");
+                            string filePath = Path.Combine(folderPath, $"{dic.Name}.json");
+
+                            alldicts.Remove(dic);   //видал спочакту з всіх словників а потім з файлів
+
+                            if (File.Exists(filePath))
+                            {
+                                File.Delete(filePath);
+                                Console.WriteLine($"{dic.Name} was succesfully removed!");
+                                return;
+                            }
+                            
                         }
                         else if (keyInfo.Key == ConsoleKey.N)
                         {
@@ -394,63 +425,109 @@ namespace FinalWork
                 }
                 Console.WriteLine($"Dictionary with name {dicname} wasn't found!");
             }
+
         }
-        internal class Program
+        //art
+        public void printArt()
+        {
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@*@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@*-%@@@@@@@@@@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@:.*@@@@#@@@@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@*. -@@@%-#@@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@-  :#@@+.+@@@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@#.  .=@%:.-#@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@-   .-#+. :*@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@#*-..             .=:  .=%@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@*:                    ..    :#@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@%-                              .+@@@@@@@@@");
+            Console.WriteLine("@@@@@@+::--:..                           -%@@@@@@@");
+            Console.WriteLine("@@@@@@@@%+.                               .*@@@@@@");
+            Console.WriteLine("@@@@@@#:                            ...     =@@@@@");
+            Console.WriteLine("@@@@%:                             .+%-.     -%@@@");
+            Console.WriteLine("@@@* .+@@+.   .%@@@@");
+            Console.WriteLine("@@=.                                .:*@#:  +@@@@@");
+            Console.WriteLine("@+.              :-.  +@@=            ......:%@@@@");
+            Console.WriteLine("%.             :#*:. *@=..                   .*@@@");
+            Console.WriteLine("=             =%%-. -%@@%%%-                  ...-");
+            Console.WriteLine(".            -%@#:  -@@@@#...:.                  +");
+            Console.WriteLine(".           .*@@%-  .%@@@@@@@@@@@@%*:           .@");
+            Console.WriteLine(".   .-      -#@@@=.  :%@@@@@@@@@@@@@@%+.        *@");
+            Console.WriteLine("= .-@%.     -#@@@@-.  ...:#@@@@@@@@@@@@%=.    .+@@");
+            Console.WriteLine("%.:@@@=     :*@%=:.. ...  .-%@%@@@@@@@@@@+. :#@@@@");
+            Console.WriteLine("@**@@@%:    .=@@@@@@@@@%:  .....-*@@@@@@@@*:#@@@@@");
+            Console.WriteLine("@@@@@@@#:    .*@@@@@@@@@+        .:+@@@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@%-    .+@@@@@*-.:=+*#%+.   .:*@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@+.   .=%@@@@%@@@@@@@@%=.   .-%@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@%+:   .=%@@@@@@@@@@@@@#:   :*@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@#=:. .:+#@@@@@@@@@@@%=-*@@@@@@@@@@@@");
+            Console.WriteLine("@@@@@@@@@@@@@@@@@%*+-::.-@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+        }
+    }
+
+    internal class Program
+    {
+
+        static void Main(string[] args)
         {
 
-            static void Main(string[] args)
+            OneDictionary dictionary = new OneDictionary();
+
+            dictionary.printArt();
+
+            string newFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "MyDictionaries");
+            try
             {
-                string newFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "MyDictionaries");
-                try
+                if (!Directory.Exists(newFolderPath))
                 {
-                    if (!Directory.Exists(newFolderPath))
-                    {
-                        Directory.CreateDirectory(newFolderPath);
-                        Console.WriteLine("-Folder MyDictionaries was Succsesfully created!-");
-                    }
-                    else
-                        Console.WriteLine("Folder MyDictionaries exists ready to work!");
+                    Directory.CreateDirectory(newFolderPath);
+                    Console.WriteLine("-Folder MyDictionaries was Succsesfully created!-");
                 }
-                catch (Exception e) { Console.WriteLine(e.Message); }
+                else
+                    Console.WriteLine("Folder MyDictionaries exists ready to work!");
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
 
 
 
-                int choise;
-                Console.WriteLine("[ 1 ] - Create Dictionary\n [ 2 ] - Add translations to the dictionary\n [ 3 ] - Replace translations\n [ 4 ] - Delete translations\n [ 5 ] - Find Translations\n [ 6 ] - Delete Dictionaries");
-
-                OneDictionary dictionary = new OneDictionary();
-
-                while (true)
+            int choise;
+            
+            while (true)
+            {
+                Console.WriteLine(" [ 1 ] - Create Dictionary\n [ 2 ] - Add translations to the dictionary\n [ 3 ] - Replace translations\n [ 4 ] - Delete translations\n [ 5 ] - Find Translations\n [ 6 ] - Delete Dictionaries\n [ 7 ] - Show All Dictionaries\n [ 0 ] - Exit");
+                Console.Write("\n---------------------------------------------------------------------\nEnter operation: "); choise = int.Parse(Console.ReadLine()!);
+                switch (choise)
                 {
-                    Console.Write("\nEnter operation: "); choise = int.Parse(Console.ReadLine()!);
-                    switch (choise)
-                    {
-                        case 1:
-                            dictionary.CreateDictionary();
-                            break;
-                        case 2:
-                            dictionary.AddTranslation();
-                            break;
-                        case 3:
-                            dictionary.ReplaceTranslation();
-                            break;
-                        case 4:
-                            dictionary.DeleteTranslation();
-                            break;
-                        case 5:
-                            dictionary.FindTranslation();
-                            break;
-                        case 6:
-                            dictionary.RemoveDictionary();
-                            break;
-                        case 0:
-                            break;
-                        default:
-                            Console.WriteLine("Wrong choice!");
-                            break;
-                    }
+                    case 1:
+                        dictionary.CreateDictionary();
+                        break;
+                    case 2:
+                        dictionary.AddTranslation();
+                        break;
+                    case 3:
+                        dictionary.ReplaceTranslation();
+                        break;
+                    case 4:
+                        dictionary.DeleteTranslation();
+                        break;
+                    case 5:
+                        dictionary.FindTranslation();
+                        break;
+                    case 6:
+                        dictionary.RemoveDictionary();
+                        break;
+                    case 7:
+                        dictionary.ShowAllDictionaries();
+                        break;
+                    case 0:
+                        dictionary.printArt();
+                        Console.WriteLine("Goodbye!");
+                        return;
+                    default:
+                        Console.WriteLine("Wrong choice!");
+                        break;
                 }
             }
         }
     }
+   
 }
